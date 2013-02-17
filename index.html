@@ -188,19 +188,19 @@ Specifies the pattern of the builder's name. Any asterisk will be
 replaced with the pojos simple name. For example, the result of the pattern "Fluent*Builder" will become 
     "FluentContactBuilder" if the pojo's name is "Contact". The default pattern is <code>"*Builder"</code>.</li>
 <li>
-<code>intoPackage=&lt;String&gt;</code>
+<tt>intoPackage=&lt;String&gt;</tt>
 Specifies the package of the generated builder. Any asterisk will be
 replaced with the pojos package. For example, the result of the pattern "*.util" will become
-    "com.example.util" if the pojo's package is "com.example". The default pattern is <code>"*"</code>.</li>
+    "com.example.util" if the pojo's package is "com.example". The default pattern is <tt>"*"</tt>.</li>
 <li>
-<code>withGenerationGap=&lt;boolean&gt;</code>
+<tt>withGenerationGap=&lt;boolean&gt;</tt>
 Specifies whether the <a href="http://martinfowler.com/dslCatalog/generationGap.html">generation gap pattern</a> is used. If enabled, this
 will generate two classes (instead of one), of which one contains the
 ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code. 
     Please move it out of the generated-sources folder to prevent it from being overwritten. 
 For examples please see <a href="http://github.com/mkarneim/pojobuilder/blob/master/samples/src/main/java/samples/with/generationgap/">"samples/src/main/java/samples/with/generationgap"</a> 
     and <a href="http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/generationgap/">"samples/src/generated/java/samples/with/generationgap"</a>.
-    Default is <code>false</code>.</li>
+    Default is <tt>false</tt>.</li>
 </ul><h2>Execution</h2>
 
 <p>To execute the annotation processor you either can</p>
