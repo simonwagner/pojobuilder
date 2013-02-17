@@ -1,0 +1,279 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Pojobuilder by mkarneim</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Pojobuilder</h1>
+        <p>A Java code generator for POJO builders</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/mkarneim/pojobuilder" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/mkarneim/pojobuilder/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/mkarneim/pojobuilder/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>PojoBuilder -  A code generator for POJO builders</h1>
+
+<p>Author: Michael Karneim</p>
+
+<p>Project Homepage: <a href="http://github.com/mkarneim/pojobuilder">http://github.com/mkarneim/pojobuilder</a></p>
+
+<h2>About</h2>
+
+<p>PojoBuilder is a Java 6 compliant annotation processor that generates a fluent builder class for POJOs (Plain Old Java Object). </p>
+
+<p>The generated builder provides </p>
+
+<ul>
+<li>a fluent interface for specifying values for the POJO's properties </li>
+<li>and a "build()" method for creating a new POJO instance with these values.</li>
+</ul><p>Here is an example of how you could use a generated POJO Builder from your code:</p>
+
+<pre><code>Contact james = new ContactBuilder()
+    .withSurname("Bond")
+    .withFirstname("James")
+    .withEmail("007@secretservice.org")
+    .build()
+</code></pre>
+
+<p>Builders are quite useful, for example, to build test data, where you only want to set the relevant data properties.</p>
+
+<p>For more information on </p>
+
+<ul>
+<li>test data builders see <a href="http://c2.com/cgi/wiki?TestDataBuilder">http://c2.com/cgi/wiki?TestDataBuilder</a> and <a href="http://www.natpryce.com/articles/000714.html">http://www.natpryce.com/articles/000714.html</a>.</li>
+<li>the builder pattern see <a href="http://en.wikipedia.org/wiki/Builder_pattern">http://en.wikipedia.org/wiki/Builder_pattern</a>. </li>
+<li>fluent interface see <a href="http://www.martinfowler.com/bliki/FluentInterface.html">http://www.martinfowler.com/bliki/FluentInterface.html</a>
+</li>
+</ul><h2>Download</h2>
+
+<p>The latest release is <a href="http://github.com/mkarneim/pojobuilder/raw/master/dist/pojobuilder-2.0.0.zip">PojoBuilder 2.0.0</a>.</p>
+
+<p>You can find older versions on the <a href="http://github.com/mkarneim/pojobuilder/archives/master">archive page</a>.</p>
+
+<h2>License</h2>
+
+<p>The source code located in the "src" directory is in the PUBLIC DOMAIN. 
+Read the <a href="http://github.com/mkarneim/pojobuilder/blob/master/COPYING">COPYING</a> file.</p>
+
+<h2>Dependencies</h2>
+
+<ul>
+<li>
+<a href="http://www.oracle.com/technetwork/java/">Java</a> 6 </li>
+<li>
+<a href="http://www.antlr.org/">ANTLR Parser Generator</a> 3.3 </li>
+<li>
+<a href="http://www.stringtemplate.org/">StringTemplate Template Engine</a> 4.0.4 </li>
+</ul><h2>Examples</h2>
+
+<p>The wiki provides some <a href="http://github.com/mkarneim/pojobuilder/wiki/Best-practices">best practices</a> about how you could use the pojobuilder generator.</p>
+
+<p>For some complete code examples please have a look into the <a href="http://github.com/mkarneim/pojobuilder/blob/master/samples">samples</a> directory.</p>
+
+<h2>How To Use</h2>
+
+<p>The POJO Builder Annotation Processor will generate the builder class for you.
+You have two options to activate it:</p>
+
+<ul>
+<li>by annotating the POJO class</li>
+<li>by annotating a factory method</li>
+</ul><h3>Annotating the POJO</h3>
+
+<p>To generate a builder class for a POJO you can annotate its class with @GeneratePojoBuilder.</p>
+
+<p>Let's have a look at the following example POJO:</p>
+
+<pre><code>@GeneratePojoBuilder(intoPackage = "samples.builder")
+public class Contact {
+    private final String surname;
+    private final String firstname;
+    private String email;
+
+    @ConstructorProperties({"surname","firstname"})
+    public Contact(String aSurname, String aFirstname) {
+        super();
+        this.surname = aSurname;
+        this.firstname = aFirstname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+}
+</code></pre>
+
+<p>The <a href="http://github.com/mkarneim/pojobuilder/blob/master/src/main/java/net/karneim/pojobuilder/GeneratePojoBuilder.java">@GeneratePojoBuilder</a> annotation tells the annotation processor to create a new Java source file with 
+the name "ContactBuilder" into the package "samples.builder" (the "intoPackage" attribute is optional). 
+If the POJO has no default constructor or if you want the generated builder to use a specific constructor 
+then annotate it with @ConstructorProperties and specify the mapping from the parameters to the corresponding properties.</p>
+
+<p>Have a look at <a href="http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/builder/ContactBuilder.java">"samples/src/generated/java/samples/builder/ContactBuilder.java"</a> to see the generated source code.</p>
+
+<h3>Annotating a Factory Method</h3>
+
+<p>Alternatively, if you can't modify the POJO's source code or if you don't 
+like annotating a POJO, you can annotate a factory method. </p>
+
+<pre><code>public class PojoFactory {
+
+    @GeneratePojoBuilder
+    @PropertyNames({ "firstname", "surname" })
+    public static Contact createContact(String aFirstname, String aSurname) {
+        Contact result = new Contact(aSurname, aFirstname);
+        return result;
+    }
+}
+</code></pre>
+
+<p>Please note that the factory method must be <em>public</em> and <em>static</em>. </p>
+
+<p>If it has parameters then you need to specify a mapping
+from the parameters to the corresponding POJO properties by using the @PropertyNames annotation.</p>
+
+<p>Have a look at <a href="http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/factory/ContactBuilder.java">"samples/src/generated/java/samples/with/factory/ContactBuilder.java"</a> to see the generated source code.</p>
+
+<h3>Directives</h3>
+
+<p>The following attributes of the @GeneratePojoBuilder annotation can be used to influence the code generation process.</p>
+
+<ul>
+<li>
+<code>withBaseclass=&lt;Class&gt;</code>
+Specifies the base class of the generated builder. The default class is <code>Object.class</code>.</li>
+<li>
+<code>withName=&lt;String&gt;</code>
+Specifies the pattern of the builder's name. Any asterisk will be
+replaced with the pojos simple name. For example, the result of the pattern "Fluent*Builder" will become 
+    "FluentContactBuilder" if the pojo's name is "Contact". The default pattern is <code>"*Builder"</code>.</li>
+<li>
+<code>intoPackage=&lt;String&gt;</code>
+Specifies the package of the generated builder. Any asterisk will be
+replaced with the pojos package. For example, the result of the pattern "*.util" will become
+    "com.example.util" if the pojo's package is "com.example". The default pattern is <code>"*"</code>.</li>
+<li>
+<code>withGenerationGap=&lt;boolean&gt;</code>
+Specifies whether the <a href="http://martinfowler.com/dslCatalog/generationGap.html">generation gap pattern</a> is used. If enabled, this
+will generate two classes (instead of one), of which one contains the
+ordinary builder code, whereas the other class extends the first one and is an empty template for handwritten code. 
+    Please move it out of the generated-sources folder to prevent it from being overwritten. 
+For examples please see <a href="http://github.com/mkarneim/pojobuilder/blob/master/samples/src/main/java/samples/with/generationgap/">"samples/src/main/java/samples/with/generationgap"</a> 
+    and <a href="http://github.com/mkarneim/pojobuilder/blob/master/samples/src/generated/java/samples/with/generationgap/">"samples/src/generated/java/samples/with/generationgap"</a>.
+    Default is <code>false</code>.</li>
+</ul><h2>Execution</h2>
+
+<p>To execute the annotation processor you either can</p>
+
+<ul>
+<li>use the javac tool to compile your project. The option "-processor net.karneim.pojobuilder.AnnotationProcessor" will activate the processor.</li>
+<li>use Ant's javac task (see below)</li>
+<li>or add the PojoBuilder annotation processor to your Eclipse project configuration (see below)</li>
+</ul><p>In any case make sure that the pojobuilder-annotation-*.jar and it's dependend libraries are included in your project's classpath
+during compile time.
+During runtime they are not required since the retention policy of PojoBuilder's annotations is SOURCE.</p>
+
+<h3>Using Ant</h3>
+
+<p>Here is a code snippet of an ANT build script that runs the PojoBuilder annotation processor within the javac task. </p>
+
+<pre><code>&lt;!-- Filesets and Classpaths  --&gt;
+&lt;fileset id="libs.fileset" dir="${lib.dir}"&gt;
+    &lt;include name="antlr-*.jar" /&gt;
+    &lt;include name="ST-*.jar" /&gt;
+    &lt;include name="pojobuilder-*.jar" /&gt;
+    &lt;!-- include any project specific libs here --&gt;
+&lt;/fileset&gt;
+
+&lt;path id="class.path"&gt;
+    &lt;fileset refid="libs.fileset" /&gt;
+&lt;/path&gt;
+
+&lt;target name="compile" depends="init" description="Compile java sources and run annotation processor"&gt;
+    &lt;mkdir dir="${src.gen.java.dir}" /&gt;
+    &lt;mkdir dir="${build.classes.dir}" /&gt;
+    &lt;javac classpathref="class.path" destdir="${build.classes.dir}"&gt;
+        &lt;src path="${src.main.java.dir}" /&gt;
+        &lt;!-- This tells the compiler where to place the generated source files --&gt;
+        &lt;compilerarg line="-s ${src.gen.java.dir}"/&gt;
+    &lt;/javac&gt;
+&lt;/target&gt;
+</code></pre>
+
+<p>You can find a complete sample build script at <a href="http://github.com/mkarneim/pojobuilder/blob/master/samples/build.xml">"samples/build.xml"</a>.</p>
+
+<h3>Using Eclipse</h3>
+
+<p>Do the following to configure the PojoBuilder annotation processor for your project in Eclipse:</p>
+
+<ul>
+<li>Place the PojoBuilder libraries (antlr-*.jar, ST-*.jar pojobuilder-*.jar) into your project library directory </li>
+<li>Open your project's properties dialog</li>
+<li>Navigate to "Java Build Path" tree node</li>
+<li>Open the "Libraries" tab</li>
+<li>Add the library pojobuilder-*.jar to your project classpath</li>
+<li>Navigate to "Java Compiler / Annotation Processing" tree node</li>
+<li>Check "Enable project specific settings"</li>
+<li>Check "Enable annotation processing"</li>
+<li>Check "Enable processing in editor"</li>
+<li>Specify the target directory for the generated code in "Generated source directory"</li>
+<li>Navigate to "Java Compiler / Annotation Processing / Factory Path" tree node</li>
+<li>Check "Enable project specific settings"</li>
+<li>Click "Add JARs..."</li>
+<li>Add antlr-*.jar</li>
+<li>Add ST-*.jar</li>
+<li>Add pojobuilder-*.jar</li>
+</ul><p>Now the annotation processor will be automatically invoked during the Eclipse build cycle.</p>
+
+<h2>How To Build</h2>
+
+<p>If you want to compile this project's sources yourself you can use Maven (see <a href="http://github.com/mkarneim/pojobuilder/blob/master/pom.xml">pom.xml</a>) or Ant  (see <a href="http://github.com/mkarneim/pojobuilder/blob/master/build.xml">build.xml</a>). </p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/mkarneim">mkarneim</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
